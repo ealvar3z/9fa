@@ -124,7 +124,7 @@ func main() {
 	default:
 		args := flag.Args()
 		if len(args) == 0 {
-			fmt.Println("Usage: agent [-acme] [-repl] <prompt>")
+			fmt.Println("Usage: 9fa [-acme] [-repl] <prompt>")
 			fmt.Println("  -acme    Acme editor mode, reads selection from stdin")
 			fmt.Println("  -repl    Interactive REPL mode with conversation history")
 			os.Exit(1)

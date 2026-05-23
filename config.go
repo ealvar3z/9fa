@@ -1,16 +1,17 @@
 package main
 
 import (
-	"crypto/tls"
+	"fmt"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/openai/openai-go/v3"
 	"github.com/openai/openai-go/v3/option"
 )
 
 const defaultModel = "gpt-5.2"
-const apiKey = "..."
+const apiKeyEnv = "OPENAI_API_KEY"
 
 func modelName() openai.ChatModel {
 	model := os.Getenv("OPENAI_MODEL")
@@ -20,15 +21,21 @@ func modelName() openai.ChatModel {
 	return openai.ChatModel(model)
 }
 
-func newOpenAIClient() openai.Client {
-	httpClient := &http.Client{
-		Transport: &http.Transport{
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-		},
+func openAIAPIKey() string {
+	apiKey := strings.TrimSpace(os.Getenv(apiKeyEnv))
+	if apiKey == "" {
+		fmt.Fprintf(os.Stderr, "Error: %s is not set\n", apiKeyEnv)
+		os.Exit(1)
 	}
 
+	return apiKey
+}
+
+func newOpenAIClient() openai.Client {
+	httpClient := &http.Client{}
+
 	return openai.NewClient(
-		option.WithAPIKey(apiKey),
+		option.WithAPIKey(openAIAPIKey()),
 		option.WithHTTPClient(httpClient),
 	)
 }
