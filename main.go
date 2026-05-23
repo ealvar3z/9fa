@@ -37,7 +37,7 @@ func runDirectMode(prompt string) {
 func runREPLLoop(agent Agent, messages []openai.ChatCompletionMessageParamUnion) {
 	scanner := bufio.NewScanner(os.Stdin)
 
-	fmt.Println("Plan 9 AI Agent REPL")
+	fmt.Println("Plan 9 REPL")
 	fmt.Println("Type 'quit' or 'exit' to exit, 'clear' to reset conversation")
 	fmt.Println()
 
